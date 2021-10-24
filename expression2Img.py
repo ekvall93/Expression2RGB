@@ -3,6 +3,7 @@ from Expresssion2RGB import Expression2Img
 import cv2
 from utils import PathHandler, VisiumPaths
 from pathlib import Path
+import os
 
 @click.command()
 @click.option("--visium_dir", type=Path)
@@ -23,6 +24,8 @@ def cli(visium_dir: Path, out_dir:Path, k: int, alpha: float):
 
     E2I = Expression2Img(h5_path, spatial_path, scale_factor_path)
     hi_img = E2I.getImage(k, alpha)
-    out_file = f"{out_dir}k_{k}_alpha_{alpha}.png"
+    
+    exp_name = os.path.basename(os.path.normpath(visium_dir))
+    out_file = f"{out_dir}{exp_name}_k_{k}_alpha_{alpha}.png"
     print(f"Image is saved at {out_file}")
     cv2.imwrite(out_file, hi_img)
